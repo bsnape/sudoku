@@ -17,10 +17,16 @@ class Sudoku
     end
   end
 
-  def get_row_possibilities(x, y)
+  def get_row_possibilities(row_index)
     values = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
-    row = [0..8].map { |n| @grid[x][n] }.flatten
+    row = (0..8).map { |n| @grid[row_index][n] }.flatten
     values - row
+  end
+
+  def get_column_possibilities(column_index)
+    values = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
+    column = (0..8).map { |n| @grid[n][column_index] }
+    values - column
   end
 
 end

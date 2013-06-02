@@ -28,7 +28,14 @@ describe Sudoku do
     file = File.new('spec/sudoku.txt', 'r')
     @sudoku.read_input file
     @sudoku.parse_input
-    @sudoku.get_row_possibilities(2, 6).should match_array ['2', '3', '5', '7', '9']
+    @sudoku.get_row_possibilities(2).should match_array ['2', '3', '5', '7', '9']
+  end
+
+  it 'should return the possible column values when given an index' do
+    file = File.new('spec/sudoku.txt', 'r')
+    @sudoku.read_input file
+    @sudoku.parse_input
+    @sudoku.get_column_possibilities(6).should match_array ['1', '7', '8']
   end
 
 end
