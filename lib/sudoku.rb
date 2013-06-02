@@ -17,4 +17,10 @@ class Sudoku
     end
   end
 
+  def get_row_possibilities(x, y)
+    values = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
+    row = [0..8].map { |n| @grid[x][n] }.flatten
+    values - row
+  end
+
 end

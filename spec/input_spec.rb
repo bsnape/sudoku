@@ -24,4 +24,11 @@ describe Sudoku do
     @sudoku.grid[2][6].should == '4'
   end
 
+  it 'should return the possible row values when given an index' do
+    file = File.new('spec/sudoku.txt', 'r')
+    @sudoku.read_input file
+    @sudoku.parse_input
+    @sudoku.get_row_possibilities(2, 6).should match_array ['2', '3', '5', '7', '9']
+  end
+
 end
