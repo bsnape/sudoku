@@ -7,6 +7,7 @@ describe Sudoku do
   end
 
   it 'should take a text file as input' do
+    Dir.mkdir 'tmp' unless Dir.exist? 'tmp'
     file = File.new('tmp/file.txt', 'w+')
     @sudoku.read_input file
   end
