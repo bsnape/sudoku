@@ -55,4 +55,24 @@ class Sudoku
     end
   end
 
+  def get_square_possibilities(original_row, original_column)
+    square = get_square(original_row, original_column)
+
+    values = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
+    found_values = []
+
+    row = squares[square].fetch(:row)
+    column = squares[square].fetch(:column)
+
+    (column..column+2).each do |c|
+      (row..row+2).each do |r|
+        current_value = @grid[r][c]
+        puts "got value: #{current_value} for co-ordinates: [#{r},#{c}]"
+        found_values << current_value unless current_value == '0' || "#{r}#{c}" == "#{original_row}#{original_column}"
+      end
+    end
+
+    values - found_values
+  end
+
 end

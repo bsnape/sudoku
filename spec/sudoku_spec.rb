@@ -49,4 +49,11 @@ describe Sudoku do
     @sudoku.get_square(7, 6).should == 9
   end
 
+  it 'should return the possible square values when given a row and column' do
+    file = File.new('spec/sudoku.txt', 'r')
+    @sudoku.read_input file
+    @sudoku.parse_input
+    @sudoku.get_square_possibilities(0, 7).should match_array ['2', '3', '5', '7', '8', '9']
+  end
+
 end
