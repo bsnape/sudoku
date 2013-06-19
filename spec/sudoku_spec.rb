@@ -39,4 +39,14 @@ describe Sudoku do
     @sudoku.get_column_possibilities(6).should match_array ['1', '7', '8']
   end
 
+  it 'should return the correct square when given a row and column' do
+    file = File.new('spec/sudoku.txt', 'r')
+    @sudoku.read_input file
+    @sudoku.parse_input
+    @sudoku.get_square(0, 0).should == 1
+    @sudoku.get_square(2, 5).should == 2
+    @sudoku.get_square(6, 4).should == 8
+    @sudoku.get_square(7, 6).should == 9
+  end
+
 end
