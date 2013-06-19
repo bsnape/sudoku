@@ -25,21 +25,21 @@ describe Sudoku do
     @sudoku.grid[2][6].should == '4'
   end
 
-  it 'should return the possible row values when given an index' do
+  it 'should return the row values when given a row index' do
     file = File.new('spec/sudoku.txt', 'r')
     @sudoku.read_input file
     @sudoku.parse_input
-    @sudoku.get_row_possibilities(2).should match_array ['2', '3', '5', '7', '9']
+    @sudoku.get_row_values(2).should match_array ["1", "4", "6", "8"]
   end
 
-  it 'should return the possible column values when given an index' do
+  it 'should return the column values when given a column index' do
     file = File.new('spec/sudoku.txt', 'r')
     @sudoku.read_input file
     @sudoku.parse_input
-    @sudoku.get_column_possibilities(6).should match_array ['1', '7', '8']
+    @sudoku.get_column_values(6).should match_array ["2", "3", "4", "5", "6", "9"]
   end
 
-  it 'should return the correct square when given a row and column' do
+  it 'should return the correct square when given row and column idices' do
     file = File.new('spec/sudoku.txt', 'r')
     @sudoku.read_input file
     @sudoku.parse_input
@@ -49,14 +49,14 @@ describe Sudoku do
     @sudoku.get_square(7, 6).should == 9
   end
 
-  it 'should return the possible square values when given a row and column' do
+  it 'should return the square values when given row and column indices' do
     file = File.new('spec/sudoku.txt', 'r')
     @sudoku.read_input file
     @sudoku.parse_input
-    @sudoku.get_square_possibilities(0, 7).should match_array ['2', '3', '5', '7', '8', '9']
+    @sudoku.get_square_values(0, 7).should match_array ["1", "4", "6"]
   end
 
-  it 'should return the combined row, column and square possibilities when given a row and column' do
+  it 'should return the combined row, column and square possibilities when given row and column indices' do
     file = File.new('spec/sudoku.txt', 'r')
     @sudoku.read_input file
     @sudoku.parse_input

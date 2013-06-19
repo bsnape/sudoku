@@ -33,14 +33,12 @@ class Sudoku
     end
   end
 
-  def get_row_possibilities(row_index)
-    row = (0..8).map { |n| @grid[row_index][n] }.flatten
-    values - row
+  def get_row_values(row_index)
+    (0..8).map { |n| @grid[row_index][n] }.delete_if { |value| value == '0' }
   end
 
-  def get_column_possibilities(column_index)
-    column = (0..8).map { |n| @grid[n][column_index] }
-    values - column
+  def get_column_values(column_index)
+    (0..8).map { |n| @grid[n][column_index] }.delete_if { |value| value == '0' }
   end
 
   def get_square(original_row, original_column)
@@ -57,7 +55,7 @@ class Sudoku
     end
   end
 
-  def get_square_possibilities(original_row, original_column)
+  def get_square_values(original_row, original_column)
     square = get_square(original_row, original_column)
 
     found_values = []
@@ -73,13 +71,13 @@ class Sudoku
       end
     end
 
-    values - found_values
+    found_values
   end
 
   def get_possibilities(row, column)
-    row_possibilities = values - get_row_possibilities(row)
-    column_possibilities = values - get_column_possibilities(column)
-    square_possibilities = values - get_square_possibilities(row, column)
+    row_possibilities = get_row_values(row)
+    column_possibilities = get_column_values(column)
+    square_possibilities = get_square_values(row, column)
 
     values - (row_possibilities + column_possibilities + square_possibilities)
   end
