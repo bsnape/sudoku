@@ -63,4 +63,11 @@ describe Sudoku do
     @sudoku.get_possibilities(8, 5).should match_array ['4', '7']
   end
 
+  it 'should traverse the whole Sudoku grid and find the correct first move in the form row, column, number' do
+    file = File.new('spec/sudoku.txt', 'r')
+    @sudoku.read_input file
+    @sudoku.parse_input
+    @sudoku.find_move.should match_array [2, 3, 9]
+  end
+
 end

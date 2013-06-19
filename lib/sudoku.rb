@@ -82,4 +82,25 @@ class Sudoku
     values - (row_possibilities + column_possibilities + square_possibilities)
   end
 
+  def find_move
+    candidates = []
+    (0..8).each do |row|
+      (0..8).each do |column|
+        puts "For [#{row}, #{column}] the possibilities are: #{get_possibilities(row, column)}"
+        value = get_possibilities(row, column)
+        candidates << {value.join.to_i => {:row => row, :column => column}} if value.size == 1
+      end
+    end
+
+    candidates.each { |hash| hash.each { |k, v| puts "key: #{k}, value: #{v}" } }
+
+    duplicates = Hash.new(0)
+    candidates.each { |hash| hash.each_key { |key| duplicates[key] += 1 } }
+    duplicates.each { |k, v| puts "#{k} appears #{v} times" }
+
+    key = duplicates.key(1)
+
+    candidates.map { |hash| [hash[key].values_at(:row, :column), key] if hash.has_key?(key) }.compact.flatten
+  end
+
 end
