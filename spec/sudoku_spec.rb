@@ -56,4 +56,11 @@ describe Sudoku do
     @sudoku.get_square_possibilities(0, 7).should match_array ['2', '3', '5', '7', '8', '9']
   end
 
+  it 'should return the combined row, column and square possibilities when given a row and column' do
+    file = File.new('spec/sudoku.txt', 'r')
+    @sudoku.read_input file
+    @sudoku.parse_input
+    @sudoku.get_possibilities(8, 5).should match_array ['4', '7']
+  end
+
 end

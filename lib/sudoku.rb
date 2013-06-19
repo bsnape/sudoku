@@ -76,4 +76,12 @@ class Sudoku
     values - found_values
   end
 
+  def get_possibilities(row, column)
+    row_possibilities = values - get_row_possibilities(row)
+    column_possibilities = values - get_column_possibilities(column)
+    square_possibilities = values - get_square_possibilities(row, column)
+
+    values - (row_possibilities + column_possibilities + square_possibilities)
+  end
+
 end
