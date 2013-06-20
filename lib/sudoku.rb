@@ -42,13 +42,10 @@ class Sudoku
   end
 
   def get_square(original_row, original_column)
-    puts "looking for coordinates: [#{original_row},#{original_column}]"
     squares.each do |square, coords|
-      puts "trying square: #{square}..."
       row, column = coords.values
       (column..column+2).each do |c|
         (row..row+2).each do |r|
-          puts "current co-ordinates: [#{r},#{c}]"
           return square if "#{original_row}#{original_column}" == "#{r}#{c}"
         end
       end
@@ -66,7 +63,6 @@ class Sudoku
     (column..column+2).each do |c|
       (row..row+2).each do |r|
         current_value = @grid[r][c]
-        puts "got value: #{current_value} for co-ordinates: [#{r},#{c}]"
         found_values << current_value unless current_value == '0' || "#{r}#{c}" == "#{original_row}#{original_column}"
       end
     end
@@ -75,24 +71,23 @@ class Sudoku
   end
 
   def get_possibilities(row, column)
-    row_possibilities = get_row_values(row)
-    column_possibilities = get_column_values(column)
-    square_possibilities = get_square_values(row, column)
+    return [] unless @grid[row][column] == '0'
+    row_values = get_row_values(row)
+    column_values = get_column_values(column)
+    square_values = get_square_values(row, column)
 
-    values - (row_possibilities + column_possibilities + square_possibilities)
+    values - (row_values + column_values + square_values)
   end
 
   def find_move
     candidates = []
     (0..8).each do |row|
       (0..8).each do |column|
-        puts "For [#{row}, #{column}] the possibilities are: #{get_possibilities(row, column)}"
         value = get_possibilities(row, column)
+        puts "For [#{row}, #{column}] the possibilities are: #{value}"
         candidates << {value.join.to_i => {:row => row, :column => column}} if value.size == 1
       end
     end
-
-    candidates.each { |hash| hash.each { |k, v| puts "key: #{k}, value: #{v}" } }
 
     duplicates = Hash.new(0)
     candidates.each { |hash| hash.each_key { |key| duplicates[key] += 1 } }

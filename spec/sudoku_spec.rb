@@ -56,8 +56,12 @@ describe Sudoku do
       @sudoku.get_possibilities(8, 5).should match_array ['4', '7']
     end
 
-    it 'should traverse the whole Sudoku grid and find the correct first move in the form row, column, number' do
-      @sudoku.find_move.should match_array [2, 3, 9]
+    it 'should return an empty array and not calculate the possibilities if a value exists at that index' do
+      @sudoku.get_possibilities(1, 0).should match_array []
+    end
+
+    it 'should traverse the whole Sudoku grid and find the correct first move in the form value, row, column' do
+      @sudoku.find_move.should match_array [1, 4, 6]
     end
 
   end
