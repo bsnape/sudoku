@@ -64,6 +64,12 @@ describe Sudoku do
       @sudoku.find_move.should match_array [1, 4, 6]
     end
 
+    it 'should allow the stored grid to be updated' do
+      @sudoku.grid[0][0].should == '0'
+      @sudoku.update_grid(0, 0, '1')
+      @sudoku.grid[0][0].should == '1'
+    end
+
   end
 end
 
