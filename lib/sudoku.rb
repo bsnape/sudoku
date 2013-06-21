@@ -103,4 +103,10 @@ class Sudoku
     candidates.map { |hash| [hash[key].values_at(:row, :column), key] if hash.has_key?(key) }.compact.flatten
   end
 
+  def count_unsolved_values
+    count = 0
+    (0..8).each { |row| (0..8).each { |column| count += 1 if @grid[row][column] == '0' } }
+    count
+  end
+
 end

@@ -70,6 +70,10 @@ describe Sudoku do
       @sudoku.grid[0][0].should == '1'
     end
 
+    it 'should count the number of unsolved values in the grid' do
+      @sudoku.count_unsolved_values.should == 49
+    end
+
   end
 end
 
