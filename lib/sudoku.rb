@@ -25,7 +25,7 @@ class Sudoku
 
   # attr_accessor wouldn't allow values to be updated for @grid, maybe because it's a 3d array?
   def update_grid(row, column, value)
-    @grid[row][column] = value
+    @grid[row.to_i][column.to_i] = value
   end
 
   def read_input(file)

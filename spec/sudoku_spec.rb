@@ -74,6 +74,21 @@ describe Sudoku do
       @sudoku.count_unsolved_values.should == 49
     end
 
+    it 'should find the correct solution' do
+      @sudoku.count_unsolved_values.times do
+        row, column, value = @sudoku.find_move
+        @sudoku.update_grid(row, column, value)
+      end
+
+      proposed_solution = @sudoku.grid
+
+      file = File.new('spec/solution.txt', 'r')
+      @sudoku.read_input file
+      @sudoku.parse_input
+
+      proposed_solution.should match_array @sudoku.grid
+    end
+
   end
 end
 
