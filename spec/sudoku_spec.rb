@@ -29,11 +29,11 @@ describe Sudoku do
     end
 
     it 'should return the row values when given a row index' do
-      @sudoku.get_row_values(2).should match_array ["1", "4", "6", "8"]
+      @sudoku.get_row_values(2).should match_array %w(1 4 6 8)
     end
 
     it 'should return the column values when given a column index' do
-      @sudoku.get_column_values(6).should match_array ["2", "3", "4", "5", "6", "9"]
+      @sudoku.get_column_values(6).should match_array %w(2 3 4 5 6 9)
     end
 
     it 'should return the correct square when given row and column idices' do
@@ -44,11 +44,11 @@ describe Sudoku do
     end
 
     it 'should return the square values when given row and column indices' do
-      @sudoku.get_square_values(0, 7).should match_array ["1", "4", "6"]
+      @sudoku.get_square_values(0, 7).should match_array %w(1 4 6)
     end
 
     it 'should return the combined row, column and square possibilities when given row and column indices' do
-      @sudoku.get_possibilities(8, 5).should match_array ['4', '7']
+      @sudoku.get_possibilities(8, 5).should match_array %w(4 7)
     end
 
     it 'should return an empty array and not calculate the possibilities if a value exists at that index' do
@@ -56,7 +56,7 @@ describe Sudoku do
     end
 
     it 'should traverse the whole Sudoku grid and find the correct first move in the form row, column, value' do
-      @sudoku.find_move.should match_array ['4', '5', '4']
+      @sudoku.find_move.should match_array %w(4 5 4)
     end
 
     it 'should allow the stored grid to be updated' do
