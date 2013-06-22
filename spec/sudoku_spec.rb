@@ -11,22 +11,17 @@ describe Sudoku do
   end
 
   it 'should take a text file as input' do
-    file = File.new('tmp/file.txt', 'w+')
-    @sudoku.read_input file
-  end
-
-  it 'should store the input in an instance variable' do
-    file = File.new('spec/sudoku.txt', 'r')
-    @sudoku.read_input file
-    @sudoku.input.should_not be_nil
+    @sudoku.setup File.new('tmp/file.txt', 'w+')
   end
 
   describe 'grid behaviour' do
 
     before(:each) do
-      file = File.new('spec/sudoku.txt', 'r')
-      @sudoku.read_input file
-      @sudoku.parse_input
+      @sudoku.setup File.new('spec/sudoku.txt', 'r')
+    end
+
+    it 'should store the Sudoku grid' do
+      @sudoku.grid.should_not be_empty
     end
 
     it 'should parse the input correctly' do
@@ -81,10 +76,7 @@ describe Sudoku do
       end
 
       proposed_solution = @sudoku.grid
-
-      file = File.new('spec/solution.txt', 'r')
-      @sudoku.read_input file
-      @sudoku.parse_input
+      @sudoku.setup File.new('spec/solution.txt', 'r')
 
       proposed_solution.should match_array @sudoku.grid
     end

@@ -1,10 +1,14 @@
 class Sudoku
 
-  attr_reader :grid, :input
+  attr_reader :grid
 
   def initialize
-    @input = nil
     @grid = []
+  end
+
+  def setup(file)
+    input = File.read file
+    input.each_line { |row| @grid << row.strip.split(//) }
   end
 
   def squares
@@ -26,16 +30,6 @@ class Sudoku
   # attr_accessor wouldn't allow values to be updated for @grid, maybe because it's a 3d array?
   def update_grid(row, column, value)
     @grid[row.to_i][column.to_i] = value
-  end
-
-  def read_input(file)
-    @input = File.read file
-  end
-
-  def parse_input
-    @input.each_line do |row|
-      @grid << row.strip.split(//)
-    end
   end
 
   def get_row_values(row_index)
@@ -92,9 +86,6 @@ class Sudoku
         candidates << {value.join.to_i => {:row => row, :column => column}} if value.size == 1
       end
     end
-
-    puts "found #{candidates.size} moves: #{candidates}"
-    puts 'found multiple possibilities, returning the first one for simplicity' if candidates.size > 1
 
     value, coords = candidates[0].first
     row, column = coords.values_at(:row, :column)
