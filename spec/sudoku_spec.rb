@@ -61,7 +61,7 @@ describe Sudoku do
     end
 
     it 'should traverse the whole Sudoku grid and find the correct first move in the form row, column, value' do
-      @sudoku.find_move.should match_array [1, 4, 6]
+      @sudoku.find_move.should match_array ['4', '5', '4']
     end
 
     it 'should allow the stored grid to be updated' do

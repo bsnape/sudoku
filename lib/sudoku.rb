@@ -89,18 +89,17 @@ class Sudoku
     (0..8).each do |row|
       (0..8).each do |column|
         value = get_possibilities(row, column)
-        puts "For [#{row}, #{column}] the possibilities are: #{value}"
         candidates << {value.join.to_i => {:row => row, :column => column}} if value.size == 1
       end
     end
 
-    duplicates = Hash.new(0)
-    candidates.each { |hash| hash.each_key { |key| duplicates[key] += 1 } }
-    duplicates.each { |k, v| puts "#{k} appears #{v} times" }
+    puts "found #{candidates.size} moves: #{candidates}"
+    puts 'found multiple possibilities, returning the first one for simplicity' if candidates.size > 1
 
-    key = duplicates.key(1)
+    value, coords = candidates[0].first
+    row, column = coords.values_at(:row, :column)
 
-    candidates.map { |hash| [hash[key].values_at(:row, :column), key] if hash.has_key?(key) }.compact.flatten
+    [row.to_s, column.to_s, value.to_s]
   end
 
   def count_unsolved_values
