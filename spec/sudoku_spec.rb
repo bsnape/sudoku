@@ -81,6 +81,12 @@ describe Sudoku do
       proposed_solution.should match_array @sudoku.grid
     end
 
+    it 'should remember the possible moves for each cell' do
+      @sudoku.find_move
+      @sudoku.moves[8][8].should match_array %w{2 4 6 7}
+      @sudoku.moves[4][5].should match_array %w{4}
+    end
+
   end
 end
 

@@ -1,9 +1,10 @@
 class Sudoku
 
-  attr_reader :grid
+  attr_reader :grid, :moves
 
   def initialize
     @grid = []
+    @moves = Array.new(9) { Array.new(9) }
   end
 
   def setup(file)
@@ -82,6 +83,7 @@ class Sudoku
     (0..8).each do |row|
       (0..8).each do |column|
         value = get_possibilities(row, column)
+        @moves[row][column] = value
         candidates << {value.join.to_i => {:row => row, :column => column}} if value.size == 1
       end
     end
