@@ -9,7 +9,9 @@ class Sudoku
 
   def setup(file)
     input = File.read file
-    input.each_line { |row| @grid << row.strip.split(//) }
+    input.each_line do |row|
+      @grid << row.strip.split(//).map { |value| value == '0' ? nil : value }
+    end
   end
 
   def squares
@@ -33,22 +35,13 @@ class Sudoku
   end
 
   def get_row_values(row)
-    (0..8).map { |column| @grid[row][column] }.select { |value| value != '0' }
+    row_values = (0..8).map { |column| @grid[row][column] }
+    row_values.select { |value| value }
   end
 
   def get_column_values(column)
-    (0..8).map { |row| @grid[row][column] }.select { |value| value != '0' }
-  end
-
-  def get_square(original_row, original_column)
-    squares.each do |square, coords|
-      row, column = coords.values
-      (column..column+2).each do |c|
-        (row..row+2).each do |r|
-          return square if "#{original_row}#{original_column}" == "#{r}#{c}"
-        end
-      end
-    end
+    column_values = (0..8).map { |row| @grid[row][column] }
+    column_values.select { |value| value }
   end
 
   def get_square_values(original_row, original_column)
@@ -62,15 +55,27 @@ class Sudoku
     (column..column+2).each do |c|
       (row..row+2).each do |r|
         current_value = @grid[r][c]
-        found_values << current_value unless current_value == '0' || "#{r}#{c}" == "#{original_row}#{original_column}"
+        next if current_value.nil? || "#{r}#{c}" == "#{original_row}#{original_column}"
+        found_values << current_value
       end
     end
 
     found_values
   end
 
-  def get_possibilities(row, column)
-    return [] unless @grid[row][column] == '0'
+  def get_square(original_row, original_column)
+    squares.each do |square, coords|
+      row, column = coords.values
+      (column..column+2).each do |c|
+        (row..row+2).each do |r|
+          return square if "#{original_row}#{original_column}" == "#{r}#{c}"
+        end
+      end
+    end
+  end
+
+  def get_cell_possibilities(row, column)
+    return [] if @grid[row][column]
     row_values    = get_row_values(row)
     column_values = get_column_values(column)
     square_values = get_square_values(row, column)
@@ -82,7 +87,7 @@ class Sudoku
     candidates = []
     (0..8).each do |row|
       (0..8).each do |column|
-        value               = get_possibilities(row, column)
+        value               = get_cell_possibilities(row, column)
         @moves[row][column] = value
         candidates << { value.join.to_i => { :row => row, :column => column } } if value.size == 1
       end
@@ -96,7 +101,11 @@ class Sudoku
 
   def count_unsolved_values
     count = 0
-    (0..8).each { |row| (0..8).each { |column| count += 1 if @grid[row][column] == '0' } }
+    (0..8).each do |row|
+      (0..8).each do |column|
+        count += 1 unless @grid[row][column]
+      end
+    end
     count
   end
 

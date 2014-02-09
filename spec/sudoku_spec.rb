@@ -48,11 +48,11 @@ describe Sudoku do
     end
 
     it 'should return the combined row, column and square possibilities when given row and column indices' do
-      @sudoku.get_possibilities(8, 5).should match_array %w(4 7)
+      @sudoku.get_cell_possibilities(8, 5).should match_array %w(4 7)
     end
 
     it 'should return an empty array and not calculate the possibilities if a value exists at that index' do
-      @sudoku.get_possibilities(1, 0).should match_array []
+      @sudoku.get_cell_possibilities(1, 0).should be_empty
     end
 
     it 'should traverse the whole Sudoku grid and find the correct first move in the form row, column, value' do
@@ -60,7 +60,7 @@ describe Sudoku do
     end
 
     it 'should allow the stored grid to be updated' do
-      @sudoku.grid[0][0].should == '0'
+      @sudoku.grid[0][0].should be_nil
       @sudoku.update_grid(0, 0, '1')
       @sudoku.grid[0][0].should == '1'
     end
