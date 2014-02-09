@@ -3,7 +3,7 @@ class Sudoku
   attr_reader :grid, :moves
 
   def initialize
-    @grid = []
+    @grid  = []
     @moves = Array.new(9) { Array.new(9) }
   end
 
@@ -13,15 +13,15 @@ class Sudoku
   end
 
   def squares
-    {1 => {:row => 0, :column => 0},
-     2 => {:row => 0, :column => 3},
-     3 => {:row => 0, :column => 6},
-     4 => {:row => 3, :column => 0},
-     5 => {:row => 3, :column => 3},
-     6 => {:row => 3, :column => 6},
-     7 => {:row => 6, :column => 0},
-     8 => {:row => 6, :column => 3},
-     9 => {:row => 6, :column => 6}}
+    { 1 => { :row => 0, :column => 0 },
+      2 => { :row => 0, :column => 3 },
+      3 => { :row => 0, :column => 6 },
+      4 => { :row => 3, :column => 0 },
+      5 => { :row => 3, :column => 3 },
+      6 => { :row => 3, :column => 6 },
+      7 => { :row => 6, :column => 0 },
+      8 => { :row => 6, :column => 3 },
+      9 => { :row => 6, :column => 6 } }
   end
 
   def values
@@ -32,12 +32,12 @@ class Sudoku
     @grid[row.to_i][column.to_i] = value
   end
 
-  def get_row_values(row_index)
-    (0..8).map { |n| @grid[row_index][n] }.delete_if { |value| value == '0' }
+  def get_row_values(row)
+    (0..8).map { |column| @grid[row][column] }.select { |value| value != '0' }
   end
 
-  def get_column_values(column_index)
-    (0..8).map { |n| @grid[n][column_index] }.delete_if { |value| value == '0' }
+  def get_column_values(column)
+    (0..8).map { |row| @grid[row][column] }.select { |value| value != '0' }
   end
 
   def get_square(original_row, original_column)
@@ -56,7 +56,7 @@ class Sudoku
 
     found_values = []
 
-    row = squares[square].fetch(:row)
+    row    = squares[square].fetch(:row)
     column = squares[square].fetch(:column)
 
     (column..column+2).each do |c|
@@ -71,7 +71,7 @@ class Sudoku
 
   def get_possibilities(row, column)
     return [] unless @grid[row][column] == '0'
-    row_values = get_row_values(row)
+    row_values    = get_row_values(row)
     column_values = get_column_values(column)
     square_values = get_square_values(row, column)
 
@@ -82,14 +82,14 @@ class Sudoku
     candidates = []
     (0..8).each do |row|
       (0..8).each do |column|
-        value = get_possibilities(row, column)
+        value               = get_possibilities(row, column)
         @moves[row][column] = value
-        candidates << {value.join.to_i => {:row => row, :column => column}} if value.size == 1
+        candidates << { value.join.to_i => { :row => row, :column => column } } if value.size == 1
       end
     end
 
     value, coords = candidates[0].first
-    row, column = coords.values_at(:row, :column)
+    row, column   = coords.values_at(:row, :column)
 
     [row.to_s, column.to_s, value.to_s]
   end
